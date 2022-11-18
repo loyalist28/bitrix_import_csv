@@ -5,7 +5,7 @@
 **php csv_import.php <путь_к_файлу_импорта> <ID_инфоблока> <корневая_директория_сайта><br>**
 Пример: **php csv_import.php dev-import/test.csv 5 W:/domains/bitrix-start**
 2. Из браузера.<br>
-Скрипт запускается со следующими параметрами в строке запроса.<br>
+Скрипт запускается со следующими параметрами в строке запроса:<br>
    \- **i_file** - путь к файлу импорта<br>
    \- **ib_id** - ID инфоблока<br>
 Пример: **bitrix-example.ru/csv_import.php?i_file=dev-import/test.csv&ib_id=5**
