@@ -154,42 +154,42 @@ if(!$cliRun) : ?>
 <head>
     <meta charset="UTF-8">
     <title>Импорт элеметов в инфоблок</title>
+    <style>
+        #import-block {
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            padding-top: 0;
+        }
+        .report-block {
+            border-bottom: 2px solid black;
+            padding: 10px 0;
+        }
+        .report-block:first-child {
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            padding: 10px 0;
+        }
+        .report-block .description {
+            display: flex;
+            justify-content: space-between;
+        }
+        .report-block ul {
+            display: none;
+            padding-left: 28px;
+        }
+        .toggler {
+            color: #0E3FB8;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        h1, h3 {
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
     <div id="import-block">
-        <style>
-            #import-block {
-                border: 2px solid black;
-                border-radius: 5px;
-                padding: 10px;
-                padding-top: 0;
-            }
-            .report-block {
-                border-bottom: 2px solid black;
-                padding: 10px 0;
-            }
-            .report-block:first-child {
-                border-top: 2px solid black;
-                border-bottom: 2px solid black;
-                padding: 10px 0;
-            }
-            .report-block .description {
-                display: flex;
-                justify-content: space-between;
-            }
-            .report-block ul {
-                display: none;
-                padding-left: 28px;
-            }
-            .toggler {
-                color: #0E3FB8;
-                text-decoration: underline;
-                cursor: pointer;
-            }
-            h1, h3 {
-                margin: 10px 0;
-            }
-        </style>
     
         <h1>Импорт элементов в инфоблок</h1>
         <p>
