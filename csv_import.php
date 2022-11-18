@@ -149,139 +149,148 @@ if(($importElementsArr = parse_csv_to_import_arr($importFile, $fieldsAssocArr, $
 }
 // Запуск в браузере
 if(!$cliRun) : ?>
-<div id="import-block">
-    <style>
-        #import-block {
-            border: 2px solid black;
-            border-radius: 5px;
-            padding: 10px;
-            padding-top: 0;
-        }
-        .report-block {
-            border-bottom: 2px solid black;
-            padding: 10px 0;
-        }
-        .report-block:first-child {
-            border-top: 2px solid black;
-            border-bottom: 2px solid black;
-            padding: 10px 0;
-        }
-        .report-block .description {
-            display: flex;
-            justify-content: space-between;
-        }
-        .report-block ul {
-            display: none;
-            padding-left: 28px;
-        }
-        .toggler {
-            color: #0E3FB8;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        h1, h3 {
-            margin: 10px 0;
-        }
-    </style>
-
-    <h1>Импорт элементов в инфоблок</h1>
-    <p>
-        Источник: <b><?= $importFile ?></b><br>
-        Разделитель ячеек: <b>;</b><br>
-    </p>
-    <h3>Отчет по импорту:</h3>
-
-    <div id="import-results">
-
-    <?php if(!empty($result)) : ?>
-        <?php if(!empty($result['added'])) : ?>
-
-        <div id="added-elements" class="report-block">
-            <div class='description'>
-                <span>Элементов импортировано: <b><?= count($result['added']) ?></b>.</span> <span class="toggler show">Показать</span>
-            </div>
-            <ul class="elements-list">
-            <?php 
-            foreach($result['added'] as $externCode => $addedId) {
-                echo "<li>Элемент с внешним кодом $externCode. ID нового элемента инфоблока: $addedId</li>"; 
-            } 
-            ?>
-            </ul>
-        </div>
-
-        <?php endif;
-        if(!empty($result['add_faults'])) : ?>
-
-        <div id="add-faults" class="report-block">
-            <div class="description">
-                <span>Не удалось импортировать элементов: <b><?= count($result['add_faults']) ?></b>.</span> <span class="toggler show">Показать</span>
-            </div>
-            <ul class="elements-list">
-            <?php 
-            foreach($result['add_faults'] as $externCode => $errorText) {
-                echo "<li>Элемент с внешним кодом $externCode.<br><b>Ошибка:</b> $errorText</li>";
-            } 
-            ?>
-            </ul>
-        </div>
-
-        <?php endif;
-        if(!empty($result['updated'])) : ?>
-
-        <div id="updated-elements" class="report-block">
-            <div class="description">
-                <span>Элементов обновлено: <b><?= count($result['updated']) ?></b>.</span> <span class="toggler show">Показать</span>
-            </div>
-            <ul class="elements-list">
-            <?php 
-            foreach($result['updated'] as $externCode => $elementId) {
-                echo "<li>Элемент с внешним кодом $externCode. ID элемента: $elementId</li>"; 
-            } 
-            ?>
-            </ul>
-        </div>
-
-        <?php endif; 
-        if(!empty($result['update_faults'])) : ?>
-
-        <div id="update-faults" class="report-block">
-            <div class="description">
-                <span>Не удалось обновить элементов: <b><?= count($result['update_faults']) ?></b>.</span> <span class="toggler show">Показать</span>
-            </div>
-            <ul class="elements-list">
-            <?php 
-            foreach($result['update_faults'] as $externCode => $errorText) {
-                echo "<li>Элемент с внешним кодом $externCode.<br><b>Ошибка:</b> $errorText</li>";
-            } 
-            ?>
-            </ul>
-        </div>
-
-        <?php endif;
-    else :
-        echo 'Нет элементов для импорта и обновления';
-    endif;
-    ?>
-    </div>
-    <script>
-        document.getElementById('import-results').addEventListener('click', function(event) {      
-            if(event.target.classList.contains('toggler')) {
-                const toggler = event.target;
-                const elementsList = toggler.closest('.report-block').querySelector('.elements-list');
-
-                if(toggler.classList.contains('show')) {
-                    elementsList.style.display = 'block';
-                    toggler.classList = 'toggler hide';
-                    toggler.innerText = 'Скрыть';
-                } else if(toggler.classList.contains('hide')) {
-                    elementsList.style.display = 'none';
-                    toggler.classList = 'toggler show';
-                    toggler.innerText = 'Показать';
-                }
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Импорт элеметов в инфоблок</title>
+</head>
+<body>
+    <div id="import-block">
+        <style>
+            #import-block {
+                border: 2px solid black;
+                border-radius: 5px;
+                padding: 10px;
+                padding-top: 0;
             }
-        }, true);
-    </script>
-</div>
+            .report-block {
+                border-bottom: 2px solid black;
+                padding: 10px 0;
+            }
+            .report-block:first-child {
+                border-top: 2px solid black;
+                border-bottom: 2px solid black;
+                padding: 10px 0;
+            }
+            .report-block .description {
+                display: flex;
+                justify-content: space-between;
+            }
+            .report-block ul {
+                display: none;
+                padding-left: 28px;
+            }
+            .toggler {
+                color: #0E3FB8;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+            h1, h3 {
+                margin: 10px 0;
+            }
+        </style>
+    
+        <h1>Импорт элементов в инфоблок</h1>
+        <p>
+            Источник: <b><?= $importFile ?></b><br>
+            Разделитель ячеек: <b>;</b><br>
+        </p>
+        <h3>Отчет по импорту:</h3>
+    
+        <div id="import-results">
+    
+        <?php if(!empty($result)) : ?>
+            <?php if(!empty($result['added'])) : ?>
+    
+            <div id="added-elements" class="report-block">
+                <div class='description'>
+                    <span>Элементов импортировано: <b><?= count($result['added']) ?></b>.</span> <span class="toggler show">Показать</span>
+                </div>
+                <ul class="elements-list">
+                <?php 
+                foreach($result['added'] as $externCode => $addedId) {
+                    echo "<li>Элемент с внешним кодом $externCode. ID нового элемента инфоблока: $addedId</li>"; 
+                } 
+                ?>
+                </ul>
+            </div>
+    
+            <?php endif;
+            if(!empty($result['add_faults'])) : ?>
+    
+            <div id="add-faults" class="report-block">
+                <div class="description">
+                    <span>Не удалось импортировать элементов: <b><?= count($result['add_faults']) ?></b>.</span> <span class="toggler show">Показать</span>
+                </div>
+                <ul class="elements-list">
+                <?php 
+                foreach($result['add_faults'] as $externCode => $errorText) {
+                    echo "<li>Элемент с внешним кодом $externCode.<br><b>Ошибка:</b> $errorText</li>";
+                } 
+                ?>
+                </ul>
+            </div>
+    
+            <?php endif;
+            if(!empty($result['updated'])) : ?>
+    
+            <div id="updated-elements" class="report-block">
+                <div class="description">
+                    <span>Элементов обновлено: <b><?= count($result['updated']) ?></b>.</span> <span class="toggler show">Показать</span>
+                </div>
+                <ul class="elements-list">
+                <?php 
+                foreach($result['updated'] as $externCode => $elementId) {
+                    echo "<li>Элемент с внешним кодом $externCode. ID элемента: $elementId</li>"; 
+                } 
+                ?>
+                </ul>
+            </div>
+    
+            <?php endif; 
+            if(!empty($result['update_faults'])) : ?>
+    
+            <div id="update-faults" class="report-block">
+                <div class="description">
+                    <span>Не удалось обновить элементов: <b><?= count($result['update_faults']) ?></b>.</span> <span class="toggler show">Показать</span>
+                </div>
+                <ul class="elements-list">
+                <?php 
+                foreach($result['update_faults'] as $externCode => $errorText) {
+                    echo "<li>Элемент с внешним кодом $externCode.<br><b>Ошибка:</b> $errorText</li>";
+                } 
+                ?>
+                </ul>
+            </div>
+    
+            <?php endif;
+        else :
+            echo 'Нет элементов для импорта и обновления';
+        endif;
+        ?>
+        </div>
+        <script>
+            document.getElementById('import-results').addEventListener('click', function(event) {      
+                if(event.target.classList.contains('toggler')) {
+                    const toggler = event.target;
+                    const elementsList = toggler.closest('.report-block').querySelector('.elements-list');
+    
+                    if(toggler.classList.contains('show')) {
+                        elementsList.style.display = 'block';
+                        toggler.classList = 'toggler hide';
+                        toggler.innerText = 'Скрыть';
+                    } else if(toggler.classList.contains('hide')) {
+                        elementsList.style.display = 'none';
+                        toggler.classList = 'toggler show';
+                        toggler.innerText = 'Показать';
+                    }
+                }
+            }, true);
+        </script>
+    </div>
+</body>
+</html>
 <?
 // Запуск в CLI
 else:
