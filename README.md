@@ -4,10 +4,11 @@
 1. Из CLI.<br>
 **php csv_import.php <путь_к_файлу_импорта> <ID_инфоблока> <корневая_директория_сайта><br>**
 Пример: **php csv_import.php dev-import/test.csv 5 W:/domains/bitrix-start**
-2. Из браузера.
-   - i_file - путь к файлу импорта
-   - ib_id - ID инфоблока<br>
-Пример: **https://bitrix-example.ru/csv_import.php?i_file=dev-import/test.csv&ib_id=5**
+2. Из браузера.<br>
+Скрипт запускается со следующими параметрами в строке запроса.<br>
+   \- **i_file** - путь к файлу импорта<br>
+   \- **ib_id** - ID инфоблока<br>
+Пример: **bitrix-example.ru/csv_import.php?i_file=dev-import/test.csv&ib_id=5**
 
 В файле скрипта задаются ассоциации полей и кодов свойств инфоблока с ключами полей импортируемых данных посредством массивов:<br>
 - **$fieldAssocArr** - массив ассоциаций полей инфоблока и ключей полей импортируемых данных.<br>
